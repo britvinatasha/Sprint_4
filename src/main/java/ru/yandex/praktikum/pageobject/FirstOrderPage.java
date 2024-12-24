@@ -25,8 +25,6 @@ public class FirstOrderPage {
     //Локатор поля "Станция метро"
     private final By metroStationInput = By.xpath(".//input[@placeholder='* Станция метро']");
 
-    //Локатор для выпадающего списка поля "Станция метро"
-    //private By metroStationList = By.xpath(".//li[@class='select-search__row']");
 
     //Локатор поля "Телефон"
     private final By phoneNumberInput = By.xpath(".//input[@placeholder='* Телефон: на него позвонит курьер']");
