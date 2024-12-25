@@ -1,20 +1,14 @@
 import ru.yandex.praktikum.pageobject.HomePage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import static ru.yandex.praktikum.pageobject.HomePage.PAGE_URL;
 
 
 @RunWith(Parameterized.class)
- public class FAQTest {
-
-     private static WebDriver driver;
+ public class FAQTest extends BaseTest {
 
      private final int questionNumber;
      private final String answerText;
@@ -39,16 +33,13 @@ import static ru.yandex.praktikum.pageobject.HomePage.PAGE_URL;
      }
          @Before
          public void setUp () {
-             WebDriverManager.chromedriver().setup();
-             driver = new ChromeDriver();
-             //WebDriverManager.firefoxdriver().setup();
-             //driver = new FirefoxDriver();
+             super.setUp("chrome");
              driver.get(PAGE_URL);
          }
 
          @Test
 
-         public void checkQuestionsText () {
+         public void testCheckQuestionsText () {
              HomePage objHomePage = new HomePage(driver);
              objHomePage.openHomePage();
              objHomePage.clickCookieAcceptButton();
@@ -60,7 +51,7 @@ import static ru.yandex.praktikum.pageobject.HomePage.PAGE_URL;
 
     @After
     public void closeBrowser () {
-        driver.quit();
+         super.closeBrowser();
     }
 }
 

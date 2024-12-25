@@ -1,12 +1,8 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-//import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.yandex.praktikum.pageobject.FirstOrderPage;
 import ru.yandex.praktikum.pageobject.HomePage;
 import ru.yandex.praktikum.pageobject.SecondOrderPage;
@@ -14,9 +10,7 @@ import ru.yandex.praktikum.pageobject.SecondOrderPage;
 import static ru.yandex.praktikum.pageobject.HomePage.PAGE_URL;
 
 @RunWith(Parameterized.class)
-public class OrderPageTest {
-
-    private static WebDriver driver;
+public class OrderPageTest extends BaseTest {
 
     private final int buttonOnPage;
     private final String name;
@@ -52,27 +46,15 @@ public class OrderPageTest {
 
     @Before
     public void setUp () {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        //WebDriverManager.firefoxdriver().setup();
-        //driver = new FirefoxDriver();
+        super.setUp("chrome");
         driver.get(PAGE_URL);
     }
 
     @Test
-    public void checkOrderCreate() {
+    public void testCheckOrderCreate() {
         HomePage objHomePage = new HomePage(driver);
         objHomePage.openHomePage();
         objHomePage.clickCookieAcceptButton();
-
-        FirstOrderPage objFirstOrderPage = new FirstOrderPage(driver);
-        objFirstOrderPage.waitUntilFirstOrderPageIsOpen();
-        objFirstOrderPage.goToSecondOrderPage(name, surname, address, metroStation, phoneNumber);
-
-        SecondOrderPage objSecondOrderPage = new SecondOrderPage(driver);
-        objSecondOrderPage.waitUntilSecondOrderPageIsOpen();
-        objSecondOrderPage.createOrder(rentalStartDay, color, text);
-
 
         switch (buttonOnPage) {
             case 1:
@@ -82,11 +64,20 @@ public class OrderPageTest {
                 objHomePage.clickOrderButtonInMiddle();
                 break;
         }
+
+        FirstOrderPage objFirstOrderPage = new FirstOrderPage(driver);
+        objFirstOrderPage.waitUntilFirstOrderPageIsOpen();
+        objFirstOrderPage.goToSecondOrderPage(name, surname, address, metroStation, phoneNumber);
+
+        SecondOrderPage objSecondOrderPage = new SecondOrderPage(driver);
+        objSecondOrderPage.waitUntilSecondOrderPageIsOpen();
+        objSecondOrderPage.createOrder(rentalStartDay, color, text);
+
     }
 
-        @After
-        public void closeBrowser() {
-            driver.quit();
-        }
-
+    @After
+    public void closeBrowser() {
+        super.closeBrowser();
     }
+
+}
